@@ -1,9 +1,8 @@
-import { Controller, Get, MessageEvent, Res, Sse } from '@nestjs/common';
+import { Controller, Get, MessageEvent, Res, Sse, UnauthorizedException } from '@nestjs/common';
 import { Response } from 'express';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { interval, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Controller()
 export class AppController {
@@ -16,8 +15,6 @@ export class AppController {
 
   @Sse('sse')
   sse(): Observable<MessageEvent> {
-    return interval(1000).pipe(
-      map((_) => ({ data: { hello: 'world' } } as MessageEvent)),
-    );
+    throw new UnauthorizedException();
   }
 }
